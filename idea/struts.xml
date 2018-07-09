@@ -1,0 +1,20 @@
+
+
+    目标：自动生成struts.xml
+    
+    目标实施步骤：
+    
+        1. 分析struts.xml结构
+            1.1 DTD固定部分
+            1.2 package(name,extends,namespace)
+                    action(name,class)
+                         result(name,type)
+                            param(name="actionName")
+                            param(name="start")
+                            param(name="range")
+        2. 分析传入参数
+            2.1 outputDir
+            2.2 filename
+            2.3 mappings
+        3. 编写build.xml
+        4. 编写java类

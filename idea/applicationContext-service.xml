@@ -1,0 +1,15 @@
+
+
+    目标：自动生成applicationContext-service.xml
+    
+    实现目标步骤：
+        
+        1. 分析文件结构applicationContext-service.xml
+            1.1 bean
+                1.1.1 property
+        2. 分析所需参数
+            2.1 outputDir
+            2.2 filename
+            2.3 mappings
+        3. 编写build.xml
+        4. 编写java类

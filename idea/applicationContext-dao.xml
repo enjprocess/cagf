@@ -1,0 +1,15 @@
+
+
+    目标：自动生成 applicationContext-dao.xml
+       
+    目标实现步骤：
+        
+        1. 分析applicationContext-dao.xml结构
+        
+            1.1 xsd头部
+            1.2 daoImpl 
+        
+        2. 编写build.xml
+        3. 编写java类
+        
+    

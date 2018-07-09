@@ -1,0 +1,17 @@
+
+
+    自动化生成Spring配置文件:
+        
+        前期准备工作：
+        
+            1. 准备好jdom.jar，来输出xml
+            2. 了解spring的配置结构
+                2.1 数据源配置
+                2.2 sessionFactory配置
+                2.3 hibernate.properties配置
+                2.4 hbm文件的配置
+        设计：
+            
+            根据spring-infrastructure结构，逐步创建element即可
+            
+        

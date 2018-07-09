@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<project name="cagf-s" basedir="." default="generated.template.files">
+
+    <!-- ant所需要使用的常量 -->
+    <property file="build.properties"></property>
+
+    <!-- 指定好ant的classpath -->
+    <target name="ant.run.environment.init">
+        <path id="ant.run.lib.path">
+            <pathelement path="${classes}"/>
+            <fileset dir="${lib}">
+                <include name="**/*.jar"/>
+            </fileset>
+        </path>
+        <taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="ant.run.lib.path"/>
+    </target>
+
+    <!-- 指定好hibernateMapping文件 -->
+    <target name="hibernate.hbm.mapping">
+        <fileset id="hibernate.hbm.files" dir="${dbconfig}">
+            <include name="**/*.hbm.xml"/>
+        </fileset>
+
+        <!-- 获的所有hbm文件的名字并连成字符串，中间用空格分隔 -->
+        <pathconvert property="hibernate.mappings" pathsep=" " refid="hibernate.hbm.files"/>
+    </target>
+
+
+
+
+    <!-- 自动生成一个项目的所有文件 -->
+    <target name="generated.template.files" depends="ant.run.environment.init, hibernate.hbm.mapping">
+        <!-- 首先根据Hbm生成javaBean与schema文件 -->
+        <hibernatetool>
+            <configuration configurationfile="${dbconfig}\hibernate.cfg.xml"/>
+            <hbm2java jdk5="true" ejb3="true" destdir="${src}"/>
+            <hbm2ddl destdir="${dbschema}" export="false" outputfilename="db.sql" />
+        </hibernatetool>
+
+        <!-- 编译model，为后续反射做好准备 -->
+        <javac srcdir="${src}" destdir="${classes}" debug="true" nowarn="on">
+            <classpath refid="ant.run.lib.path"/>
+        </javac>
+
+        <!-- 生成dao接口 -->
+        <java classname="com.cagf.tool.hbm2dao.GenerateDao">
+            <classpath refid="ant.run.lib.path"/>
+            <arg line="--outputDir=${src}" />
+            <arg line="--templateDir=${templateDir}" />
+            <arg line="${hibernate.mappings}" />
+        </java>
+
+        <!-- 生成daoImpl实现类 -->
+        <java classname="com.cagf.tool.hbm2daoimpl.GenerateDaoImpl">
+            <classpath refid="ant.run.lib.path"/>
+            <arg line="--outputDir=${src}" />
+            <arg line="--templateDir=${templateDir}" />
+            <arg line="${hibernate.mappings}" />
+        </java>
+
+        <!-- 生成service接口 -->
+        <java classname="com.cagf.tool.hbm2service.GenerateService">
+            <classpath refid="ant.run.lib.path"/>
+            <arg line="--outputDir=${src}" />
+            <arg line="--templateDir=${templateDir}" />
+            <arg line="${hibernate.mappings}" />
+        </java>
+
+        <!-- 生成service实现类 -->
+        <java classname="com.cagf.tool.hbm2serviceimpl.GenerateServiceImpl">
+            <classpath refid="ant.run.lib.path"/>
+            <arg line="--outputDir=${src}" />
+            <arg line="--templateDir=${templateDir}" />
+            <arg line="${hibernate.mappings}" />
+        </java>
+
+        <!-- 生成Action实现类 -->
+        <java classname="com.cagf.tool.hbm2action.GenerateAction">
+            <classpath refid="ant.run.lib.path"/>
+            <arg line="--outputDir=${src}" />
+            <arg line="--templateDir=${templateDir}" />
+            <arg line="${hibernate.mappings}" />
+        </java>
+
+        <!-- 生成Spring-infrastructure.xml -->
+        <java classname="com.cagf.tool.hbm2xml.infrastructure.GenerateSpringInfrastructure">
+            <classpath refid="ant.run.lib.path"/>
+            <arg line="--outputDir=${webInf}" />
+            <arg line="--filename=${springInfrastructureName}" />
+            <arg line="--dbProperty=${dbProperty}" />
+            <arg line="--hibernateProperty=${hibernateProperty}" />
+            <arg line="${hibernate.mappings}" />
+        </java>
+
+        <!-- 生成applicationContext-dao.xml -->
+        <java classname="com.cagf.tool.hbm2xml.dao.GenerateSpringDao">
+            <classpath refid="ant.run.lib.path"/>
+            <arg line="--outputDir=${webInf}" />
+            <arg line="--filename=${springDaoName}" />
+            <arg line="${hibernate.mappings}" />
+        </java>
+
+        <!-- 生成applicationContext-service.xml -->
+        <java classname="com.cagf.tool.hbm2xml.service.GenerateSpringService">
+            <classpath refid="ant.run.lib.path"/>
+            <arg line="--outputDir=${webInf}" />
+            <arg line="--filename=${springServiceName}" />
+            <arg line="${hibernate.mappings}" />
+        </java>
+
+        <!-- 生成applicationContext-action.xml -->
+        <java classname="com.cagf.tool.hbm2xml.action.GenerateSpringAction">
+            <classpath refid="ant.run.lib.path"/>
+            <arg line="--outputDir=${webInf}" />
+            <arg line="--filename=${springActionName}" />
+            <arg line="${hibernate.mappings}" />
+        </java>
+
+        <fileset id="application.files" dir="${webInf}">
+            <include name="**/applicationContext*.xml"/>
+            <exclude name="applicationContext.xml"/>
+        </fileset>
+
+        <pathconvert property="spring.mappings" pathsep=" " refid="application.files"/>
+
+        <!-- 生成applicationContext-action.xml -->
+        <java classname="com.cagf.tool.hbm2xml.spring.GenerateSpring">
+            <classpath refid="ant.run.lib.path"/>
+            <arg line="--outputDir=${webInf}" />
+            <arg line="--filename=${springName}" />
+            <arg line="${spring.mappings}" />
+        </java>
+
+        <!-- 生成web.xml -->
+        <java classname="com.cagf.tool.hbm2xml.web.GenerateWeb">
+            <classpath refid="ant.run.lib.path"/>
+            <arg line="--outputDir=${webInf}" />
+            <arg line="--filename=${webFileName}" />
+        </java>
+
+        <!-- 生成struts.xml -->
+        <java classname="com.cagf.tool.hbm2xml.struts.GenerateStruts">
+            <classpath refid="ant.run.lib.path"/>
+            <arg line="--outputDir=${strutsFilePos}" />
+            <arg line="--filename=${strutsFileName}" />
+            <arg line="${hibernate.mappings}" />
+        </java>
+
+        <!-- 生成jsp -->
+        <java classname="com.cagf.tool.hbm2jsp.GenerateJSP">
+            <classpath refid="ant.run.lib.path"/>
+            <arg line="--outputDir=${jspOutputPos}" />
+            <arg line="--templateDir=${templateDir}" />
+            <arg line="--filename=${jspTemplateFileName}" />
+            <arg line="--addTemplate=${addJspTemplateFileName}" />
+            <arg line="--updatePTemplate=${updatePTemplateFileName}" />
+            <arg line="${hibernate.mappings}" />
+        </java>
+
+        <!-- 编译整个工程，为启动服务做好准备 -->
+        <javac srcdir="${src}" destdir="${classes}" debug="true" nowarn="on">
+            <classpath refid="ant.run.lib.path"/>
+        </javac>
+
+    </target>
+
+
+
+
+
+
+
+</project>

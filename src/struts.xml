@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+  <package name="Person" extends="struts-default" namespace="/Person">
+    <action name="addPerson" class="addPerson">
+      <result name="success" type="redirectAction">
+        <param name="actionName">listPerson</param>
+      </result>
+    </action>
+    <action name="listPerson" class="listPerson">
+      <result name="success">listPerson.jsp</result>
+    </action>
+    <action name="delPerson" class="delPerson">
+      <result name="success" type="redirectAction">
+        <param name="actionName">listPerson</param>
+        <param name="start">${start}</param>
+        <param name="range">${range}</param>
+      </result>
+    </action>
+    <action name="updatePPerson" class="updatePPerson">
+      <result name="success">updatePPerson.jsp</result>
+    </action>
+    <action name="updatePerson" class="updatePerson">
+      <result name="success" type="redirectAction">
+        <param name="actionName">listPerson</param>
+      </result>
+    </action>
+  </package>
+  <package name="Student" extends="struts-default" namespace="/Student">
+    <action name="addStudent" class="addStudent">
+      <result name="success" type="redirectAction">
+        <param name="actionName">listStudent</param>
+      </result>
+    </action>
+    <action name="listStudent" class="listStudent">
+      <result name="success">listStudent.jsp</result>
+    </action>
+    <action name="delStudent" class="delStudent">
+      <result name="success" type="redirectAction">
+        <param name="actionName">listStudent</param>
+        <param name="start">${start}</param>
+        <param name="range">${range}</param>
+      </result>
+    </action>
+    <action name="updatePStudent" class="updatePStudent">
+      <result name="success">updatePStudent.jsp</result>
+    </action>
+    <action name="updateStudent" class="updateStudent">
+      <result name="success" type="redirectAction">
+        <param name="actionName">listStudent</param>
+      </result>
+    </action>
+  </package>
+</struts>
+

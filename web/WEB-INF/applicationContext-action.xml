@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  <bean id="addPerson" class="com.shengsiyuan.action.AddPerson" scope="prototype">
+    <property name="personService">
+      <ref bean="personService" />
+    </property>
+  </bean>
+  <bean id="listPerson" class="com.shengsiyuan.action.ListPerson" scope="prototype">
+    <property name="personService">
+      <ref bean="personService" />
+    </property>
+  </bean>
+  <bean id="updatePPerson" class="com.shengsiyuan.action.UpdatePPerson" scope="prototype">
+    <property name="personService">
+      <ref bean="personService" />
+    </property>
+  </bean>
+  <bean id="updatePerson" class="com.shengsiyuan.action.UpdatePerson" scope="prototype">
+    <property name="personService">
+      <ref bean="personService" />
+    </property>
+  </bean>
+  <bean id="delPerson" class="com.shengsiyuan.action.DelPerson" scope="prototype">
+    <property name="personService">
+      <ref bean="personService" />
+    </property>
+  </bean>
+  <bean id="addStudent" class="com.shengsiyuan.action.AddStudent" scope="prototype">
+    <property name="studentService">
+      <ref bean="studentService" />
+    </property>
+  </bean>
+  <bean id="listStudent" class="com.shengsiyuan.action.ListStudent" scope="prototype">
+    <property name="studentService">
+      <ref bean="studentService" />
+    </property>
+  </bean>
+  <bean id="updatePStudent" class="com.shengsiyuan.action.UpdatePStudent" scope="prototype">
+    <property name="studentService">
+      <ref bean="studentService" />
+    </property>
+  </bean>
+  <bean id="updateStudent" class="com.shengsiyuan.action.UpdateStudent" scope="prototype">
+    <property name="studentService">
+      <ref bean="studentService" />
+    </property>
+  </bean>
+  <bean id="delStudent" class="com.shengsiyuan.action.DelStudent" scope="prototype">
+    <property name="studentService">
+      <ref bean="studentService" />
+    </property>
+  </bean>
+</beans>
+

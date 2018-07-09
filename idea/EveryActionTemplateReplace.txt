@@ -1,0 +1,49 @@
+
+    模板要替换的内容：
+        AddActionTemplate:
+            package @ACTIONPACKAGENAME@;
+            import @IMPORTBEANSNAME@;
+            import @IMPORTSERVICEINTERFACE@;
+            @CLASSNAME@
+            @classname@
+            @DECLAREPROPERTIES@
+            @PREPAREDATA@
+        DelActionTemplate:
+            package @ACTIONPACKAGENAME@;
+            import @IMPORTBEANSNAME@;
+            import @IMPORTSERVICEINTERFACE@;
+            @CLASSNAME@
+            @classname@
+        UpdatePActionTemplate:
+            package @ACTIONPACKAGENAME@;
+            import @IMPORTBEANSNAME@;
+            import @IMPORTSERVICEINTERFACE@;
+            @CLASSNAME@
+            @classname@
+        UpdateActionTemplate:
+            package @ACTIONPACKAGENAME@;
+            import @IMPORTBEANSNAME@;
+            import @IMPORTSERVICEINTERFACE@;
+            @CLASSNAME@
+            @classname@
+            @DECLAREPROPERTIES@
+            @PREPAREDATA@
+        ListActionTemplate:
+            package @ACTIONPACKAGENAME@;
+            import @IMPORTBEANSNAME@;
+            import @IMPORTSERVICEINTERFACE@;
+            @CLASSNAME@
+            
+    自动生成的类接受的参数：
+        
+        --outputDir
+        --templateDir
+        ${hibernate.mappings}
+        
+    类处理步骤：
+        1. 读取到5个tempalte转成String
+        2. 准备好替代的值
+        3. 进行替换
+        4. 输出到指定的目录
+    
+        

@@ -1,0 +1,15 @@
+
+
+    目标：自动生成applicationContext-action.xml
+    
+    目标实施步骤：
+    
+        1. 分析applicationContext-action.xml结构
+            1.1 five beans include:addPerson、deletePerson、updatePPerson、updatePerson、listPerson
+                1.1.1 property personService ref personService
+        2. 分析传入参数
+            2.1 outputDir
+            2.2 filename
+            2.3 mappings
+        3. 编写build.xml
+        4. 编写java类
